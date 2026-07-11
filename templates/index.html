@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Sentiment Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+
+    <div class="card">
+        <h1>Amazon review sentiment analyzer</h1>
+        <p class="subtitle">Powered by SVM + TF-IDF bigrams</p>
+        <form action="/predict" method="post">
+            <textarea name="review" placeholder="Type your review here..."></textarea>
+            <button type="submit">
+                <i class="ti ti-chart-bar"></i> Analyze
+            </button>
+        </form>
+    </div>
+
+    {% if result %}
+    <div class="result-card">
+
+        <div class="result-header {{ 'positive' if result == 'Positive' else 'negative' }}">
+            <div class="result-icon">
+                <i class="ti {{ 'ti-check' if result == 'Positive' else 'ti-x' }}"></i>
+            </div>
+            <div>
+                <p class="result-title">{{ result }}</p>
+                <p class="result-subtitle">
+                    The overall sentiment of this review is {{ result | lower }}
+                </p>
+            </div>
+        </div>
+
+        <div class="result-body">
+
+            <div class="metric-row">
+                <div class="metric-icon green">
+                    <i class="ti ti-mood-smile"></i>
+                </div>
+                <div class="metric-content">
+                    <div class="metric-header">
+                        <span class="metric-label">Polarity</span>
+                        <span class="metric-value-green">{{ polarity }}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill-green" style="width: {{ ((polarity | float + 1) / 2 * 100) | round }}%"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>Negative -1</span>
+                        <span>Positive 1</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="metric-row">
+                <div class="metric-icon blue">
+                    <i class="ti ti-user"></i>
+                </div>
+                <div class="metric-content">
+                    <div class="metric-header">
+                        <span class="metric-label">Subjectivity</span>
+                        <span class="metric-value-blue">{{ subjectivity }}</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill-blue" style="width: {{ (subjectivity | float * 100) | round }}%"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>Objective 0</span>
+                        <span>Subjective 1</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="text-analyzed">
+                <div class="metric-icon gray">
+                    <i class="ti ti-file-text"></i>
+                </div>
+                <div class="text-analyzed-content">
+                    <p>Text analyzed</p>
+                    <p>{{ review_text[:200] }}{% if review_text|length > 200 %}...{% endif %}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+</body>
+</html>
