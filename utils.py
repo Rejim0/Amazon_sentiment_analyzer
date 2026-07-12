@@ -1,4 +1,10 @@
 import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('punkt_tab')
+nltk.download('omw-1.4')
+
 import string
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
