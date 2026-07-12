@@ -4,6 +4,12 @@ from flask import Flask,render_template,redirect,request,url_for
 import pickle
 from textblob import TextBlob
 from utils import text_preprocess
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('punkt_tab')
+nltk.download('omw-1.4')
 
 app = Flask(__name__)
 
